@@ -32,6 +32,8 @@ function open() {
 function close(task=null) {
     taskInfo.description = ""
     taskInfo.title = ""
+ 
+    taskErrors.splice(0,taskErrors.length)
     createTask.value.close()
     emit('close',task)
 }
@@ -118,7 +120,7 @@ async function saveTask(){
             </div>
             <div class="modal-action">
                 <!-- if there is a button in form, it will close the modal -->
-                <button @click="close" class="btn btn-accent">Close</button>
+                <button @click="close()" class="btn btn-accent">Close</button>
                 <button @click="saveTask" class="btn btn-primary">Save</button>
 
             </div>
