@@ -4,14 +4,14 @@ import {object,string,number, ObjectSchema} from 'yup'
 export interface ITask {
     title: string
     description: string
-    status? :'pending' | 'in process' | 'completed' | null
+    status? :'pending' | 'in process' | 'complete' | null
 }
 
 
 const id = number().positive()
 const title = string().min(3)
 const description = string().min(3)
-const status = string<'pending' | 'in process' | 'completed' >() 
+const status = string<'pending' | 'in process' | 'complete' >() 
 
 
 const createTaskSchema: ObjectSchema<ITask> = object({

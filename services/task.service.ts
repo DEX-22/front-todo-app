@@ -14,7 +14,7 @@ class TaskService{
  
             return rows
         }catch(error){
-            throw new Error(error?.message)
+            throw new Error(error?.data.message)
         }
     }
     getOne(){}
@@ -28,12 +28,36 @@ class TaskService{
             
             return response
         }catch(error){
-            throw new Error(error?.message)
+            throw new Error(error?.data.message)
         }
 
     }
-    update(){}
-    delete(){}
+    async update(id:number,data: ITask){
+        try{
+            
+            const response = await $fetch(`${this.baseUrl}/${id}`,{
+                method:'PATCH',
+                body:JSON.stringify(data)
+            }) 
+            
+            return "Task was deleted."
+        }catch(error){ 
+            throw new Error(error.data.message)
+        }
+    }
+    async delete(id: number){
+        try{
+            
+            const response = await $fetch(`${this.baseUrl}/${id}`,{
+                method:'DELETE'
+            }) 
+            
+            return "Task was deleted."
+        }catch(error){ 
+            throw new Error(error.data.message)
+        }
+
+    }
 }
 
 
