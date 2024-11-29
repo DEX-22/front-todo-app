@@ -98,7 +98,7 @@ async function saveTask(){
 </script>
 
 <template>
-    <dialog id="createTask" :ref="'createTask'" class="modal">
+    <dialog  ref="createTask" class="modal">
         <div class="modal-box">
             <h3 class="text-lg font-bold mb-2">Create task</h3>
             <section class="flex  justify-center flex-wrap">
