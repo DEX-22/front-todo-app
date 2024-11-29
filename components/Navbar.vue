@@ -6,7 +6,7 @@
             <h1 class="font-bold text-xl">TODO APP</h1>
         </div>
         <div class="flex-none">
-            <slot name="action" />
+            <slot name="logout" />
         </div>
     </div>
 </template>

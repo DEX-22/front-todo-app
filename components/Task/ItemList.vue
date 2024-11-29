@@ -4,13 +4,13 @@ const {$swal} = useNuxtApp()
 
 const service = new TaskService()
 
-const { participants, item } = defineProps({
+const {  item } = defineProps({
   item: {
     type: Object,
     required: true
   }
 })
-const emit = defineEmits(['openUpdateModal','delete'])
+const emit = defineEmits(['openUpdateModal','delete','showDetails'])
 
 function openModal(){
     emit('openUpdateModal',item)
@@ -45,10 +45,15 @@ async function deleteTask(){
 
     emit('delete')
 }
+
+function showDetails(){
+  emit('showDetails',item)
+}
+
 </script>
 <template>
 
-  <div class="my-2 flex h-20 w-full flex-row flex-nowrap rounded-xl  border-2 border-slate-600 bg-slate-700">
+  <div @click="showDetails" class="my-2 flex h-20 w-full flex-row flex-nowrap rounded-xl  border-2 border-slate-600 bg-slate-700 cursor-pointer">
 
     <div class="flex h-full w-full items-center">
       <div class="grow px-2 py-3">
@@ -60,9 +65,9 @@ async function deleteTask(){
 
         </div>
       </div>
-      <div class="flex h-full gap-2 items-center justify-between mr-2">
-        <button @click="openModal" class="btn btn-sm btn-warning">Edit</button>
-        <button @click="deleteTask" class="btn  btn-sm btn-accent ">Delete</button>
+      <div v-if="item.title.toLowerCase() != 'empty'" class="flex h-full gap-2 items-center justify-between mr-2">
+        <button @click.stop="openModal" class="btn btn-sm btn-warning">Edit</button>
+        <button @click.stop="deleteTask" class="btn  btn-sm btn-accent ">Delete</button>
 
       </div>
     </div>

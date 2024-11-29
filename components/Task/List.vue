@@ -6,6 +6,7 @@ const taskService = new TaskService()
 const { $swal } = useNuxtApp()
 const showCreateModal = ref(false)
 const showEditModal = ref(false)
+const showDetailsModal = ref(false)
 const taskToEdit = reactive({
     id: null,
     title: "",
@@ -88,7 +89,23 @@ async function updateTask(task) {
 async function deleteTask() { 
         await getData() 
 }
+function showDetails(task){
 
+    taskToEdit.id = task.id
+    taskToEdit.title = task.title
+    taskToEdit.description = task.description
+    taskToEdit.status = task.status
+
+    showDetailsModal.value = true
+}
+function closeShowDetails(){
+    taskToEdit.id = ""
+    taskToEdit.title = ""
+    taskToEdit.description = ""
+    taskToEdit.status =""  
+
+    showDetailsModal.value = false
+}
 onMounted(async () => {
     await getData()
 })
@@ -103,6 +120,7 @@ onMounted(async () => {
                 v-for="status in statusGroups" 
                 :items="items[status]" 
                 :status="status" 
+                @showDetails="showDetails"
                 @openUpdateModal="openUpdateModal($event)"
                 @deleteTask="deleteTask"
                 />
@@ -113,5 +131,6 @@ onMounted(async () => {
 
     <TaskCreate :show="showCreateModal" @close="closeModal($event,'create')" />
     <TaskEdit :show="showEditModal" @close="updateTask" :task="taskToEdit" />
+    <TaskDetails :show="showDetailsModal"  @close="closeShowDetails" :task="taskToEdit" />
 
 </template>

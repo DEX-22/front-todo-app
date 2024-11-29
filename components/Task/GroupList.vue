@@ -3,7 +3,7 @@ const props = defineProps({
     items: { type: Array },
     status: { type: String }
 })
-const emit = defineEmits(['openUpdateModal','deleteTask'])
+const emit = defineEmits(['openUpdateModal','deleteTask','showDetails'])
 
 const title = computed(() => {
     return props.status.toUpperCase()
@@ -18,6 +18,9 @@ function deleteTask() {
 
 function openUpdateModal(task) {
     emit('openUpdateModal',task)
+}
+function showDetails(task){
+    emit('showDetails',task)
 }
 </script>
 
@@ -36,6 +39,7 @@ function openUpdateModal(task) {
                     v-for="(item, index) in items" 
                     :key="index" 
                     :item="item" 
+                    @showDetails="showDetails"
                     @delete="deleteTask" 
                     @openUpdateModal="openUpdateModal"
                     />
