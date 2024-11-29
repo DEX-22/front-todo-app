@@ -41,6 +41,7 @@ async function getData() {
             title: 'Error!',
             text: error.message
         })
+        return 
     }
 
     if (data.length) {

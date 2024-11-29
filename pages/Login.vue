@@ -46,7 +46,16 @@ async function login(){
         password: inputs.password
         })
 
-        navigateTo("/")
+        if(data.token)
+          navigateTo("/")
+        else{
+          $swal.fire({
+          icon: "error",
+          title: "Error",
+          text: data
+        }) 
+        }
+          
 
     } catch (error) {
       $swal.fire({
