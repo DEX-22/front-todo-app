@@ -7,7 +7,7 @@ class TaskService{
     }
     async getAll(){
         try{
-            console.log(this.baseUrl)
+            
             const response = await fetch(this.baseUrl)
             const rows = await response.json()
             return rows
