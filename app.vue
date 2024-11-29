@@ -1,15 +1,12 @@
-<script lang="ts" setup>
- 
+<script lang="ts" setup> 
 
 </script>
 
 <template>
+   <section class="h-screen">
+
  <NuxtLayout>
-   <template #actionsNav> 
-        <button class="btn btn-primary"> Create task</button>
-    </template>
-    <NuxtPage >
-      
-    </NuxtPage>
+    <NuxtPage /> 
  </NuxtLayout>
+   </section>
 </template>

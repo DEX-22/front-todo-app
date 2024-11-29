@@ -1,13 +1,19 @@
 <template>
      <NuxtLoadingIndicator />
-    <Navbar >
-        <template #action>
-            <slot name="actionsNav" > 
-            </slot> 
-        </template>
+    <Navbar class="h-[10vh]">
     </Navbar>
-    <section class="py-2 px-4"> 
+    <section  class="h-[90vh] py-2 px-4 overflow-y-scroll"> 
 
-    <slot />
-</section>
+        <slot />
+    </section>
 </template>
+<style lang="postcss">
+html{
+    @apply h-screen overflow-y-hidden;
+}
+body{
+
+    @apply bg-slate-700 h-screen ;
+}
+
+</style>

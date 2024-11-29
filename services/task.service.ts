@@ -1,3 +1,5 @@
+import type { ITask } from "../schemas/task.schema"
+
 class TaskService{
     config
     baseUrl
@@ -8,15 +10,28 @@ class TaskService{
     async getAll(){
         try{
             
-            const response = await fetch(this.baseUrl)
-            const rows = await response.json()
+            const rows = await $fetch(this.baseUrl)
+ 
             return rows
         }catch(error){
             throw new Error(error?.message)
         }
     }
     getOne(){}
-    create(){}
+    async create(data: ITask){
+        try{
+            
+            const response = await $fetch(this.baseUrl,{
+                method:'POST',
+                body: JSON.stringify(data)
+            }) 
+            
+            return response
+        }catch(error){
+            throw new Error(error?.message)
+        }
+
+    }
     update(){}
     delete(){}
 }
