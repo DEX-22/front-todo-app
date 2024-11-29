@@ -17,6 +17,8 @@ const inputs = reactive({
 
 const taskErrors = reactive([])
 
+const isCharging = ref(false)
+
 async function validateFields() {
   try {
 
@@ -41,7 +43,7 @@ async function register() {
 
   const dataIsValid = await validateFields()
   if (!dataIsValid) return
-
+  isCharging.value = true
   try {
     const data = await authService.register({
       name: inputs.name,
@@ -57,8 +59,8 @@ async function register() {
       confirmButtonText: "Go to login"
     })
 
-    navigateTo("/login")
-
+    await navigateTo("/login")
+    isCharging.value = false
 
   } catch (error) {
     $swal.fire({
@@ -66,6 +68,9 @@ async function register() {
       title: "Error",
       text: error.message
     })
+  }finally{
+    if(isCharging.value)
+          isCharging.value = true
   }
 
 }
@@ -119,10 +124,15 @@ function back(){
               <span v-for="error in taskErrors" class="text-sm text-red-500">{{ error }}</span>
             </div>
           <div class="form-control mt-6">
-            <button class="btn btn-primary" @click="register">Register</button>
+            <button v-if="!isCharging" class="btn btn-primary" @click="register">Register</button>
+              
+            <button v-else disabled class="btn btn-primary">
+              <Loading /> 
+            </button>
+
           </div>
           <div class="form-control mt-6">
-          <button @click="back" class="btn btn-secondary">Back to login</button>
+          <button @click="back" class="btn btn-secondary" :disabled="isCharging">Back to login</button>
         </div>
         </div>
       </div>

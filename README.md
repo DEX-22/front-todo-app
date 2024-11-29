@@ -40,7 +40,7 @@ bun run dev
 
 ## Production
 
-Build the application for production:
+Build the application for SSR:
 
 ```bash
 # npm
@@ -54,6 +54,23 @@ yarn build
 
 # bun
 bun run build
+```
+
+
+Build the application for static site:
+
+```bash
+# npm
+npm run generate
+
+# pnpm
+pnpm generate
+
+# yarn
+yarn generate
+
+# bun
+bun run generate
 ```
 
 Locally preview production build:

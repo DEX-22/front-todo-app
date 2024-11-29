@@ -14,6 +14,7 @@ const inputs = reactive({
 })
 
 const taskErrors = reactive([])
+const isCharging = ref(false)
 
 async function validateFields(){
     try {
@@ -41,14 +42,17 @@ async function login(){
     if (!dataIsValid) return
 
     try {
+      isCharging.value = true
         const data = await authService.login({
         email: inputs.email,
         password: inputs.password
         })
 
-        if(data.token)
-          navigateTo("/")
-        else{
+        if(data.token){
+          await navigateTo("/")
+          isCharging.value = false
+
+        }else{
           $swal.fire({
           icon: "error",
           title: "Error",
@@ -63,12 +67,16 @@ async function login(){
           title: "Error",
           text: error.message
         }) 
+    }finally{
+      if(isCharging.value)
+        isCharging.value = false
+
     }
 
 }
 
-function goToRegister(){
-  navigateTo("/register")
+async function goToRegister(){
+  await navigateTo("/register")
 }
 
 </script>
@@ -104,10 +112,16 @@ function goToRegister(){
 
         </div>
         <div class="form-control mt-6">
-          <button class="btn btn-primary" @click="login">Login</button>
+          <button v-if="!isCharging" class="btn btn-primary" @click="login">
+            Login
+          </button>
+          <button v-else disabled>
+            <Loading /> 
+          </button>
+              
         </div>
         <div class="form-control mt-6">
-          <button @click="goToRegister" class="btn btn-secondary">Register</button>
+          <button @click="goToRegister" class="btn btn-secondary" :disabled="isCharging">Register</button>
         </div>
       </div>
     </div>

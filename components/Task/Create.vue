@@ -2,6 +2,7 @@
 import TaskService from '@/services/task.service'
 import {createTaskSchema} from '@/schemas/task.schema'
 import {ValidationError} from 'yup'
+const taskService = new TaskService()
 
 const {$swal} = useNuxtApp()
 const createTask = ref(null)
@@ -10,7 +11,7 @@ const taskInfo = reactive({
     description: ""
 })
 const taskErrors = reactive([])
-const taskService = new TaskService()
+const isCharging = ref(false)
 
 const props = defineProps({
     show: { type: Boolean, required: true }
@@ -73,14 +74,18 @@ async function saveTask(){
 
     const dataIsValid =await validateFields()
     if (!dataIsValid) return
-
+    isCharging.value = true
     try {
         const data = await taskService.create({
         title: taskInfo.title,
         description: taskInfo.description
         })
 
+        isCharging .value= false
+
         close(data) 
+
+
 
         $swal.fire({
             icon: 'success',
@@ -89,6 +94,9 @@ async function saveTask(){
 
     } catch (error) {
         taskErrors.push(error.message)
+    }finally{
+        if(isCharging.value)
+        isCharging.value = false
     }
 
 }
@@ -120,9 +128,13 @@ async function saveTask(){
             </div>
             <div class="modal-action">
                 <!-- if there is a button in form, it will close the modal -->
-                <button @click="close()" class="btn btn-accent">Close</button>
-                <button @click="saveTask" class="btn btn-primary">Save</button>
+                <button @click="close()" class="btn btn-accent" :disabled="isCharging">Close</button>
 
+                <button v-if="!isCharging" @click="saveTask" class="btn btn-primary">Save</button>
+
+                <button v-else disabled class="btn btn-primary">
+                    <Loading /> 
+                </button>
             </div>
         </div>
     </dialog>

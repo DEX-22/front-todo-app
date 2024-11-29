@@ -12,7 +12,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 
-
+const isCharging = ref(false)
 const createTask = ref(null)
 const taskInfo = reactive({
     id: null,
@@ -76,7 +76,7 @@ async function saveTask() {
 
     const dataIsValid = await validateFields()
     if (!dataIsValid) return
-
+    isCharging.value = true
     try {
         const data = await taskService.update(props.task.id,{
             title: taskInfo.title,
@@ -84,6 +84,7 @@ async function saveTask() {
             status: taskInfo.status
         })
 
+        isCharging.value = false
         close(data)
 
         $swal.fire({
@@ -93,6 +94,9 @@ async function saveTask() {
 
     } catch (error) {
         taskErrors.push(error.message)
+    }finally{
+        if(isCharging.value)
+            isCharging.value = false
     }
 
 }
@@ -144,8 +148,12 @@ watch(isOpen, async (newVal, oldVal) => {
             </div>
             <div class="modal-action">
                 <!-- if there is a button in form, it will close the modal -->
-                <button @click="close()" class="btn btn-accent">Close</button>
-                <button @click="saveTask" class="btn btn-primary">Save</button>
+                <button @click="close()" class="btn btn-accent" :disabled="isCharging">Close</button>
+                <button v-if="!isCharging" @click="saveTask" class="btn btn-primary">Save</button>
+                
+                <button v-else disabled class="btn btn-primary">
+                    <Loading /> 
+                </button>
 
             </div>
         </div>
