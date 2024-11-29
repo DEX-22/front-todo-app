@@ -15,7 +15,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 
-const createTask = ref(null)
+const detailTask = ref(null)
 const taskInfo = reactive({
     id: null,
     title: "",
@@ -34,12 +34,12 @@ function open() {
     taskInfo.title = props.task.title,
         taskInfo.description = props.task.description,
         taskInfo.status = props.task.status
-    createTask.value.showModal()
+    detailTask.value.showModal()
 }
 function close(task = null) {
     taskInfo.description = ""
     taskInfo.title = ""
-    createTask.value.close()
+    detailTask.value.close()
     emit('close', task)
 }
 async function validateFields() {
@@ -111,7 +111,7 @@ watch(isOpen, async (newVal, oldVal) => {
 </script>
 
 <template>
-    <dialog id="createTask" :ref="'createTask'" class="modal">
+    <dialog id="detailTask" ref="detailTask" class="modal">
         <div class="modal-box">
             <h3 class="text-lg font-bold mb-2">Details</h3>
             <section class="flex  justify-center flex-wrap">
