@@ -67,6 +67,9 @@ async function login(){
 
 }
 
+function goToRegister(){
+  navigateTo("/register")
+}
 
 </script>
 
@@ -103,9 +106,9 @@ async function login(){
         <div class="form-control mt-6">
           <button class="btn btn-primary" @click="login">Login</button>
         </div>
-        <!-- <div class="form-control mt-6">
-          <button class="btn btn-secondary">Register</button>
-        </div> -->
+        <div class="form-control mt-6">
+          <button @click="goToRegister" class="btn btn-secondary">Register</button>
+        </div>
       </div>
     </div>
   </div>
